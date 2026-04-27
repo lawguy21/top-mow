@@ -32,6 +32,7 @@
   #cover {
     z-index: 1;
     object-fit: cover;
+    object-position: center top;
     opacity: 0;
     transition: opacity 0.4s ease-out;
     pointer-events: none;
@@ -738,33 +739,29 @@ function drawBoot() {
   }
 }
 
-// === TITLE SCREEN (cover photo with overlay text) ===
+// === TITLE SCREEN (cover photo framed by black bands) ===
 function drawTitle() {
-  ctx.clearRect(0, 0, W, H);  // transparent — cover image shows through
+  ctx.clearRect(0, 0, W, H);
 
-  // top banner backdrop for the TOP MOW logo
-  ctx.fillStyle = 'rgba(0,0,0,0.55)';
-  ctx.fillRect(0, 6, W, 52);
+  // Solid black bands above + below so TOP MOW doesn't run over Brent's face
+  rect(0, 0, W, 30, C.K);
+  rect(0, H-26, W, 26, C.K);
+  // subtle separator lines between bands and photo
+  rect(0, 30, W, 1, '#1a1a1a');
+  rect(0, H-27, W, 1, '#1a1a1a');
 
-  // big TOP MOW (red w/ shadow)
-  bmpC('TOP MOW', 12, C.RS, 5);
-  bmp('TOP MOW', ((W - bmpW('TOP MOW',5))/2)|0 - 1, 11, C.R, 5);
+  // TOP MOW logo (scale 3 — fits cleanly inside the 30px top band)
+  bmpC('TOP MOW', 6, C.RS, 3);
+  bmp('TOP MOW', ((W - bmpW('TOP MOW', 3))/2)|0 - 1, 5, C.R, 3);
 
-  // subtitle
-  bmpC('OPERATION SHIP IT', 48, C.Y, 1);
-
-  // bottom banner backdrop for prompt
-  ctx.fillStyle = 'rgba(0,0,0,0.7)';
-  ctx.fillRect(0, H-22, W, 22);
-
-  bmpC('A BRENT SPERRY EXPERIENCE', H-18, C.WH, 1);
-  if ((frame >> 3) % 2) bmpC('PRESS ENTER TO ENGAGE', H-9, C.G, 1);
-
+  // Best score sits in the top-right of the band
   if (bestScore > 0) {
-    ctx.fillStyle = 'rgba(0,0,0,0.6)';
-    ctx.fillRect(W - bmpW('BEST ' + bestScore) - 8, 62, bmpW('BEST ' + bestScore) + 8, 11);
-    bmp('BEST ' + bestScore, W - bmpW('BEST ' + bestScore) - 4, 64, C.Y);
+    bmp('BEST ' + bestScore, W - bmpW('BEST ' + bestScore) - 4, 10, C.Y);
   }
+
+  // Bottom band: tagline + blinking prompt
+  bmpC('A BRENT SPERRY EXPERIENCE', H-22, C.WH, 1);
+  if ((frame >> 3) % 2) bmpC('PRESS ENTER TO ENGAGE', H-12, C.G, 1);
 }
 
 // === GAME OVER SCREEN ===
