@@ -2,7 +2,9 @@
 
 A very stupid joke game starring **Brent Sperry**, COO of LexMed, on a Spartan zero-turn riding mower, mowing down the founder's terrible AI startup ideas while shipping good ones out the back.
 
-## Play
+**Play it live:** https://top-mow.vercel.app
+
+## Play locally
 
 Open `index.html` in any modern browser. No build step.
 
